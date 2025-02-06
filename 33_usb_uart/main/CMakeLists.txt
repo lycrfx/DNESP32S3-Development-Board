@@ -1,0 +1,9 @@
+idf_component_register(
+    SRC_DIRS 
+        "."
+        "APP"
+        "APP/USB_UART"
+    INCLUDE_DIRS 
+        "."
+        "APP"
+        "APP/USB_UART")

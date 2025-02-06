@@ -1,0 +1,92 @@
+/**
+ ******************************************************************************
+ * @file        main.c
+ * @author      正点原子团队(ALIENTEK)
+ * @version     V1.0
+ * @date        2025-01-01
+ * @brief       DHT11数字温湿度传感器实验
+ * @license     Copyright (c) 2020-2032, 广州市星翼电子科技有限公司
+ ******************************************************************************
+ * @attention
+ * 
+ * 实验平台:正点原子 ESP32-S3 开发板
+ * 在线视频:www.yuanzige.com
+ * 技术论坛:www.openedv.com
+ * 公司网址:www.alientek.com
+ * 购买地址:openedv.taobao.com
+ ******************************************************************************
+ */
+
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+#include "nvs_flash.h"
+#include "led.h"
+#include "my_spi.h"
+#include "myiic.h"
+#include "xl9555.h"
+#include "spilcd.h"
+#include "dht11.h"
+#include <stdio.h>
+
+
+/**
+ * @brief       程序入口
+ * @param       无
+ * @retval      无
+ */
+void app_main(void)
+{
+    esp_err_t ret;
+    uint8_t t = 0;
+    short temperature = 0;
+    short humidity = 0;
+
+    ret = nvs_flash_init();     /* 初始化NVS */
+    if (ret == ESP_ERR_NVS_NO_FREE_PAGES || ret == ESP_ERR_NVS_NEW_VERSION_FOUND)
+    {
+        ESP_ERROR_CHECK(nvs_flash_erase());
+        ESP_ERROR_CHECK(nvs_flash_init());
+    }
+
+    led_init();                 /* LED初始化 */
+    my_spi_init();              /* SPI初始化 */
+    myiic_init();               /* IIC初始化 */
+    xl9555_init();              /* 初始化按键 */
+    spilcd_init();              /* LCD屏初始化 */
+
+    spilcd_show_string(30, 50, 200, 16, 16, "ESP32-S3", RED);
+    spilcd_show_string(30, 70, 200, 16, 16, "DHT11 TEST", RED);
+    spilcd_show_string(30, 90, 200, 16, 16, "ATOM@ALIENTEK", RED);
+
+    while (dht11_init())        /* 初始化DHT11数字温湿度传感器 */
+    {
+        spilcd_show_string(30, 110, 200, 16, 16, "DHT11 Error", RED);
+        vTaskDelay(pdMS_TO_TICKS(200));
+        spilcd_fill(30, 110, 239, 126, WHITE);
+        vTaskDelay(pdMS_TO_TICKS(200));
+    }
+
+    spilcd_show_string(30, 110, 200, 16, 16, "DHT11 OK", RED);
+    spilcd_show_string(30, 130, 200, 16, 16, "Temp:00.0C", BLUE);
+    spilcd_show_string(30, 150, 200, 16, 16, "Humi:00.0%", BLUE);
+    
+    while (1)
+    {
+        if (t % 10 == 0)    /* 每100ms读取一次 */
+        {
+            dht11_read_data(&temperature, &humidity);               /* 读取温湿度值 */
+            spilcd_show_num(70, 130, temperature / 10, 2, 16, BLUE);   /* 显示温度整数部分 */
+            spilcd_show_num(94, 130, temperature % 10, 1, 16, BLUE);   /* 显示温度小数部分 */
+            spilcd_show_num(70, 150, humidity / 10,    2, 16, BLUE);   /* 显示湿度 */
+        }
+
+        vTaskDelay(pdMS_TO_TICKS(10));
+        t++;
+
+        if (t == 20)
+        {
+            t = 0;
+            LED0_TOGGLE();
+        }
+    }
+}

@@ -45,6 +45,6 @@ void app_main(void)
     while(1)
     {
         LED0_TOGGLE();
-        vTaskDelay(pdMS_TO_TICKS(500));    /* 延时500ms */
+        vTaskDelay(pdMS_TO_TICKS(100));    /* 延时100ms */
     }
 }

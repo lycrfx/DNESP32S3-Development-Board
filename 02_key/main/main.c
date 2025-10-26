@@ -11,7 +11,7 @@
  * 
  * 实验平台:正点原子 ESP32-S3 开发板
  * 在线视频:www.yuanzige.com
- * 技术论坛:www.openedv.com
+ * 技术论�?www.openedv.com
  * 公司网址:www.alientek.com
  * 购买地址:openedv.taobao.com
  ******************************************************************************
@@ -23,20 +23,21 @@
 #include <stdio.h>
 #include "led.h"
 #include "key.h"
+#include "esp_log.h"
 
 
 /**
  * @brief       程序入口
- * @param       无
- * @retval      无
+ * @param       �?
+ * @retval      �?
  */
 void app_main(void)
 {
     esp_err_t ret;
     uint8_t key = 0;
-    
-    ret = nvs_flash_init();     /* 初始化NVS */
+    static const char *TAG = "MAIN";
 
+    ret = nvs_flash_init();     /* 初始化NVS */
     if (ret == ESP_ERR_NVS_NO_FREE_PAGES || ret == ESP_ERR_NVS_NEW_VERSION_FOUND)
     {
         ESP_ERROR_CHECK(nvs_flash_erase());
@@ -46,18 +47,17 @@ void app_main(void)
     led_init();                 /* 初始化LED */
     key_init();                 /* 初始化KEY */
 
-    while(1)
+    while (1)
     {
         key = key_scan(0);
 
-        if (key)
+        if (key == BOOT_PRES)
         {
-            if (key == BOOT_PRES)
-            {
-                LED0_TOGGLE();
-            }
+            LED0_TOGGLE();
+            ESP_LOGI(TAG, "BOOT按键已按下");
         }
 
         vTaskDelay(pdMS_TO_TICKS(10));
     }
 }
+

@@ -1,0 +1,22 @@
+# Ignore ESP-IDF build outputs and common temp files
+
+# ESP-IDF per-project build directories
+**/build/
+
+# IDF generated backup config
+**/sdkconfig.old
+
+# Python caches
+**/__pycache__/
+*.pyc
+*.pyo
+
+# Logs
+*.log
+
+# OS/editor junk
+.DS_Store
+Thumbs.db
+.idea/
+*.code-workspace
+

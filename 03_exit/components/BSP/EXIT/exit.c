@@ -20,6 +20,7 @@
 
 #include "exit.h"
 #include "led.h"
+#include "esp_rom_sys.h"
 
 
 /**
@@ -40,6 +41,8 @@ static void IRAM_ATTR exit_gpio_isr_handler(void *arg)
         if (BOOT_INT == 0)
         {
             LED0_TOGGLE();
+            /* 外部中断触发输出提醒（ISR环境，使用ROM打印函数） */
+            esp_rom_printf("[EXIT] 外部中断触发，GPIO[%lu]\r\n", gpio_num);
         }
     }
 }

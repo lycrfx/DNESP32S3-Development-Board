@@ -1,0 +1,90 @@
+##############################################################
+# ESP-IDF / ESP32 项目通用忽略规则
+##############################################################
+
+# 编译输出目录
+/build/
+sdkconfig.old
+CMakeCache.txt
+cmake_install.cmake
+*.cmake
+*.elf
+*.bin
+*.map
+*.log
+*.tmp
+
+# 组件缓存与索引
+idf_component.yml.lock
+dependencies.lock
+managed_components/
+__idf_component_cache__/
+
+# Ninja / Make 构建缓存
+/.ninja_deps
+/.ninja_log
+/.cmake/
+
+# Python 虚拟环境与缓存
+venv/
+.env/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# VS Code 设置文件（保留工作区配置，可选）
+.vscode/
+.vscode-test/
+.vscode/settings.json
+.vscode/launch.json
+
+# Windows / 系统文件
+Thumbs.db
+Desktop.ini
+ehthumbs.db
+$RECYCLE.BIN/
+*.lnk
+
+# 临时或测试输出
+/logs/
+/output/
+/temp/
+/tmp/
+*.bak
+*.old
+*.orig
+
+# ESP-IDF 工具自动生成内容
+tools/idf_monitor.pyc
+tools/idf_size.pyc
+tools/esp_app_trace/
+tools/esp_*
+
+# Git 临时合并文件
+*.rej
+*.diff
+*.patch
+
+# 上传/打包忽略
+*.zip
+*.7z
+*.tar
+*.gz
+
+##############################################################
+# 可选：根据需要启用以下规则
+##############################################################
+
+# 如果你使用 CLion / Eclipse
+#.idea/
+#.project
+#.settings/
+#.cproject
+
+# 如果你使用 PlatformIO
+#.pio/
+
+# 如果你使用 Visual Studio
+#*.sln
+#*.vcxproj*

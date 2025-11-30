@@ -1,6 +1,6 @@
 {
+  "idf.portWin": "COM4",
   "idf.flashType": "UART",
-  "idf.portWin": "COM7",
   "idf.openOcdConfigs": [
     "board/esp32s3-builtin.cfg"
   ],
@@ -11,9 +11,6 @@
   "clangd.arguments": [
     "--background-index",
     "--query-driver=c:\\Espressif\\tools\\tools\\xtensa-esp-elf\\esp-13.2.0_20240530\\xtensa-esp-elf\\bin\\xtensa-esp32s3-elf-gcc.exe",
-    "--compile-commands-dir=c:\\Users\\admin\\Desktop\\DNESP32S3-Development-Board\\Examples for version v5.3.x\\1. Standard Routine - IDF(v5.3.x)\\02_key\\build"
-  ],
-  "files.associations": {
-    "esp_log.h": "c"
-  }
+    "--compile-commands-dir=c:\\Users\\admin\\Desktop\\02_key\\build"
+  ]
 }

@@ -22,6 +22,9 @@
 #include "nvs_flash.h"
 #include <stdio.h>
 #include "led.h"
+#include "esp_log.h"
+
+static const char *TAG = "MAIN";
 
 
 /**
@@ -32,7 +35,8 @@
 void app_main(void)
 {
     esp_err_t ret;
-    
+    ESP_LOGI(TAG, "Application start");
+
     ret = nvs_flash_init();     /* 初始化NVS */
     if (ret == ESP_ERR_NVS_NO_FREE_PAGES || ret == ESP_ERR_NVS_NEW_VERSION_FOUND)
     {
@@ -40,11 +44,21 @@ void app_main(void)
         ESP_ERROR_CHECK(nvs_flash_init());
     }
 
-    led_init();                 /* 初始化LED */
+    ESP_LOGI(TAG, "NVS initialized");
 
+    led_init();                 /* 初始化LED */
+    ESP_LOGI(TAG, "LED initialized");
+
+    int cnt = 0;
     while(1)
     {
         LED0_TOGGLE();
-        vTaskDelay(pdMS_TO_TICKS(100));    /* 延时100ms */
+        vTaskDelay(pdMS_TO_TICKS(200));    /* 延时100ms */
+        cnt++;
+        /* 每秒打印一次运行提示，避免串口被大量日志淹没 */
+        if (cnt >= 10) {
+            ESP_LOGI(TAG, "LED toggled %d times", cnt);
+            cnt = 0;
+        }
     }
 }

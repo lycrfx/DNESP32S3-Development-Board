@@ -1,14 +1,10 @@
 {
-    "C_Cpp.intelliSenseEngine": "default",
-    "idf.espIdfPathWin": "d:\\Soft_APP\\ESP_IDF\\master\\esp-idf",
+    "idf.flashType": "UART",
+    "idf.portWin": "COM89",
+    "files.associations": {
+        "uart.h": "c"
+    },
     "idf.openOcdConfigs": [
         "board/esp32s3-builtin.cfg"
-    ],
-    "idf.toolsPathWin": "d:\\Soft_APP\\ESP_IDF\\tools",
-    "files.autoGuessEncoding": true,
-    "idf.portWin": "COM33",
-    "idf.flashType": "UART",
-    "idf.espIdfPath": "/root/esp/v5.4/esp-idf",
-    "idf.toolsPath": "/root/.espressif",
-    "idf.port": "/dev/ttyUSB0"
+    ]
 }

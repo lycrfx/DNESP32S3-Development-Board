@@ -59,13 +59,23 @@ void app_main(void)
             uart_read_bytes(USART_UX, data, len, 100);
             data[len] = '\0';
 
+            /* 收到任意串口数据时短暂闪烁LED作为提示（可根据需要调整时长） */
+            LED0(0);                       /* 点亮LED */
+            vTaskDelay(pdMS_TO_TICKS(100)); /* 保持100ms */
+            LED0(1);                       /* 熄灭LED */
+
             if (strcmp(a, data) == 0)
             {
                 LED0(0);
+                /* 串口提示：LED 已点亮 */
+                printf("LED ON\r\n");
+
             }
             else if (strcmp(b, data) == 0)
             {
                 LED0(1);
+                /* 串口提示：LED 已熄灭 */
+                printf("LED OFF\r\n");
             }
 
             memset(data, 0, 10);

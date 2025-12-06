@@ -1,25 +1,11 @@
-/**
- ****************************************************************************************************
- * @file        esptim.c
- * @author      正点原子团队(ALIENTEK)
- * @version     V1.0
- * @date        2025-01-01
- * @brief       高分辨率定时器（ESP定时器）驱动代码
- * @license     Copyright (c) 2020-2032, 广州市星翼电子科技有限公司
- ****************************************************************************************************
- * @attention
- *
- * 实验平台:正点原子 ESP32-S3 开发板
- * 在线视频:www.yuanzige.com
- * 技术论坛:www.openedv.com
- * 公司网址:www.alientek.com
- * 购买地址:openedv.taobao.com
- * 
- ****************************************************************************************************
- */
-
 #include "esptimer.h"
 #include "led.h"
+#include "esp_log.h"
+#include "esp_timer.h"
+
+
+static const char *TAG = "ESPTIMER";
+static int32_t trigger_count = 0;
 
 
 /**
@@ -30,6 +16,10 @@
 void esptimer_callback(void *arg)
 {
     LED0_TOGGLE();
+
+    int64_t us = esp_timer_get_time();
+    ESP_LOGI(TAG, "运行时间: %lld us, 函数调用次数：%d", (long long)us, trigger_count++);
+
 }
 
 /**

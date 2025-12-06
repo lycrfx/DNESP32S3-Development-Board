@@ -1,14 +1,19 @@
 {
-    "C_Cpp.intelliSenseEngine": "default",
-    "idf.espIdfPathWin": "d:\\Soft_APP\\ESP_IDF\\master\\esp-idf",
-    "idf.openOcdConfigs": [
-        "board/esp32s3-builtin.cfg"
-    ],
-    "idf.toolsPathWin": "d:\\Soft_APP\\ESP_IDF\\tools",
-    "files.autoGuessEncoding": true,
-    "idf.portWin": "COM33",
-    "idf.flashType": "UART",
-    "idf.port": "/dev/ttyUSB0",
-    "idf.espIdfPath": "/root/esp/v5.4/esp-idf",
-    "idf.toolsPath": "/root/.espressif"
+  "idf.flashType": "UART",
+  "idf.portWin": "COM7",
+  "idf.openOcdConfigs": [
+    "board/esp32s3-builtin.cfg"
+  ],
+  "idf.customExtraVars": {
+    "IDF_TARGET": "esp32s3"
+  },
+  "clangd.path": "c:\\Espressif\\tools\\tools\\esp-clang\\16.0.1-fe4f10a809\\esp-clang\\bin\\clangd.exe",
+  "clangd.arguments": [
+    "--background-index",
+    "--query-driver=c:\\Espressif\\tools\\tools\\xtensa-esp-elf\\esp-13.2.0_20240530\\xtensa-esp-elf\\bin\\xtensa-esp32s3-elf-gcc.exe",
+    "--compile-commands-dir=c:\\Users\\admin\\Desktop\\05_esptimer\\build"
+  ],
+  "files.associations": {
+    "esp_log.h": "c"
+  }
 }

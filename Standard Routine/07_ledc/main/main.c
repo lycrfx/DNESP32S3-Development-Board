@@ -22,6 +22,9 @@
 #include "nvs_flash.h"
 #include <stdio.h>
 #include "ledc.h"
+#include "esp_log.h"
+
+static const char *TAG = "LEDC";
 
 
 /**
@@ -55,15 +58,15 @@ void app_main(void)
 
     while(1)
     {
-        vTaskDelay(pdMS_TO_TICKS(100));
+        vTaskDelay(pdMS_TO_TICKS(2000));
 
         if (dir == 1)
         {
-            ledpwmval += 5; /* dir==1 ledpwmval递增 */
+            ledpwmval += 10; /* dir==1 ledpwmval递增 */
         }
         else
         {
-            ledpwmval -= 5; /* dir==0 ledpwmval递减 */
+            ledpwmval -= 10; /* dir==0 ledpwmval递减 */
         }
 
         if (ledpwmval > 95)
@@ -71,12 +74,15 @@ void app_main(void)
             dir = 0;        /* ledpwmval到达100后，方向为递减 */
         }
 
-        if (ledpwmval < 5)
+        if (ledpwmval < 10)
         {
             dir = 1;        /* ledpwmval递减到5后，方向改为递增 */
         }
 
         /* 设置占空比 */
         ledc_pwm_set_duty(ledc_config, ledpwmval);
+
+        /* 输出当前的占空比到日志 */
+        ESP_LOGI(TAG, "LED PWM: %d", ledpwmval);
     }
 }

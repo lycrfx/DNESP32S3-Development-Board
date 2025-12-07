@@ -22,22 +22,33 @@
 
 
 /**
- * @brief       计算一个周期的占空比计数值
- * @param       duty:   占空比
- * @param       m^n:    输入参数
- * @retval      返回一个周期的占空比计数值
+ * @brief       计算一个周期的占空比计数值（兼容旧代码 + 修复溢出）
+ * @param       duty: 占空比百分比（0~100）
+ * @param       m: 基数（固定为 2）
+ * @param       n: 分辨率 bit 数（如 14 → 2^14）
+ * @retval      0 ~ (2^n - 1) 的占空比计数值
  */
 uint32_t ledc_duty_pow(uint32_t duty, uint8_t m, uint8_t n)
 {
     uint32_t result = 1;
 
+    /* 原逻辑：计算 result = m^n */
     while (n--)
     {
         result *= m;
     }
 
+    /* -------------------------------
+       修复关键点：m^n 计算的是 2^n，
+       但 LEDC 最大值是 2^n - 1，不能使用 2^n。
+       若不减 1，会导致 duty=100% 时溢出。
+       ------------------------------- */
+    result -= 1;  // 修复 BUG：从 2^n 改为 (2^n - 1)
+
+    /* 返回与百分比 duty 对应的最终占空比计数 */
     return (result * duty) / 100;
 }
+
 
 /**
  * @brief       初始化LEDC

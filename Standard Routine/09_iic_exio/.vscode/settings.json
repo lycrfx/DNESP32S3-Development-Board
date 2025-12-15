@@ -1,6 +1,6 @@
 {
     "idf.flashType": "UART",
-    "idf.portWin": "COM89",
+    "idf.portWin": "COM90",
     "idf.openOcdConfigs": [
         "board/esp32s3-builtin.cfg"
     ],

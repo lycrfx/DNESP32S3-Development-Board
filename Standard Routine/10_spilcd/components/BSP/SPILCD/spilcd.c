@@ -59,7 +59,7 @@ esp_err_t spilcd_init(void)
     esp_lcd_panel_io_spi_config_t io_config = {
         .dc_gpio_num         = LCD_DC_PIN,          /* DC IO */
         .cs_gpio_num         = LCD_CS_PIN,          /* CS IO */
-        .pclk_hz             = 60 * 1000 * 1000,    /* PCLK为60MHz */
+        .pclk_hz             = 40 * 1000 * 1000,    /* PCLK为60MHz */   //60 * 1000 * 1000,  78125
         .lcd_cmd_bits        = 8,                   /* 命令位宽 */
         .lcd_param_bits      = 8,                   /* LCD参数位宽 */
         .spi_mode            = 0,                   /* SPI模式 */

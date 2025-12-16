@@ -122,7 +122,7 @@ void app_main(void)
         spilcd_show_string(10, 110, 240, 16, 16, "ATOM@ALIENTEK", RED);
         x++;
 
-        if (x == 12)
+        if (x == 1)
         {
             x = 0;
         }

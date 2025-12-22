@@ -44,7 +44,7 @@ esp_err_t my_spi_init(void)
 
     /* SPI驱动接口配置,SPISD卡时钟是20-25MHz */
     spi_device_interface_config_t devcfg = {
-        .clock_speed_hz = 20 * 1000 * 1000, /* SPI时钟 */
+        .clock_speed_hz = 80 * 1000 * 1000, /* SPI时钟 */
         .mode = 0,                          /* SPI模式0 */
         .spics_io_num = SD_CS_PIN,          /* 片选引脚 */
         .queue_size = 7,                    /* 事务队列尺寸 7个 */

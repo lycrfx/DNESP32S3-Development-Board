@@ -56,7 +56,7 @@ void app_main(void)
         vTaskDelay(pdMS_TO_TICKS(200));    /* 延时100ms */
         cnt++;
         /* 每秒打印一次运行提示，避免串口被大量日志淹没 */
-        if (cnt >= 8) {
+        if (cnt >= 10) {
             ESP_LOGI(TAG, "LED toggled %d times", cnt);
             cnt = 0;
         }

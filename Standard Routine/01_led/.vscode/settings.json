@@ -12,5 +12,6 @@
     "--background-index",
     "--query-driver=**",
     "--compile-commands-dir=/home/leo/work/DNESP32S3-Development-Board/Standard Routine/01_led/build"
-  ]
+  ],
+  "idf.pythonInstallPath": "/usr/bin/python3"
 }

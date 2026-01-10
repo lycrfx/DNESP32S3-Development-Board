@@ -94,9 +94,9 @@ uint16_t audio_get_tnum(uint8_t *path)
  */
 void audio_index_show(uint16_t index, uint16_t total)
 {
-    spilcd_show_num(30 + 0, 230, index, 3, 16, RED);
-    spilcd_show_char(30 + 24, 230, '/', 16, 0, RED);
-    spilcd_show_num(30 + 32, 230, total, 3, 16, RED);
+    spilcd_show_num(30 + 0, 210, index, 3, 16, RED);
+    spilcd_show_char(30 + 24, 210, '/', 16, 0, RED);
+    spilcd_show_num(30 + 32, 210, total, 3, 16, RED);
 }
 
 /**
@@ -114,17 +114,17 @@ void audio_msg_show(uint32_t totsec, uint32_t cursec, uint32_t bitrate)
     {
         playtime = cursec;
         
-        spilcd_show_xnum(30, 210, playtime / 60, 2, 16, 0X80, RED);
-        spilcd_show_char(30 + 16, 210, ':', 16, 0, RED);
-        spilcd_show_xnum(30 + 24, 210, playtime % 60, 2, 16, 0X80, RED);
-        spilcd_show_char(30 + 40, 210, '/', 16, 0, RED);
+        spilcd_show_xnum(30, 190, playtime / 60, 2, 16, 0X80, RED);
+        spilcd_show_char(30 + 16, 190, ':', 16, 0, RED);
+        spilcd_show_xnum(30 + 24, 190, playtime % 60, 2, 16, 0X80, RED);
+        spilcd_show_char(30 + 40, 190, '/', 16, 0, RED);
         
-        spilcd_show_xnum(30 + 48, 210, totsec / 60, 2, 16, 0X80, RED);
-        spilcd_show_char(30 + 64, 210, ':', 16, 0, RED);
-        spilcd_show_xnum(30 + 72, 210, totsec % 60, 2, 16, 0X80, RED);
+        spilcd_show_xnum(30 + 48, 190, totsec / 60, 2, 16, 0X80, RED);
+        spilcd_show_char(30 + 64, 190, ':', 16, 0, RED);
+        spilcd_show_xnum(30 + 72, 190, totsec % 60, 2, 16, 0X80, RED);
         
-        spilcd_show_num(30 + 110, 210, bitrate / 1000, 4, 16, RED);
-        spilcd_show_string(30 + 110 + 32 , 210, 200, 16, 16, "Kbps", RED);
+        spilcd_show_num(30 + 110, 190, bitrate / 1000, 4, 16, RED);
+        spilcd_show_string(30 + 110 + 32 , 190, 200, 16, 16, "Kbps", RED);
     }
 }
 
@@ -224,9 +224,9 @@ void audio_play(void)
 
     while (f_opendir(&wavdir, "0:/MUSIC"))
     {
-        text_show_string(30, 190, 240, 16, "MUSIC文件夹错误!", 16, 0, BLUE);
+        text_show_string(30, 170, 240, 16, "MUSIC文件夹错误!", 16, 0, BLUE);
         vTaskDelay(200);
-        spilcd_fill(30, 190, 240, 206, WHITE);
+        spilcd_fill(30, 170, 240, 206, WHITE);
         vTaskDelay(200);
     }
 
@@ -234,9 +234,9 @@ void audio_play(void)
     
     while (totwavnum == 0)
     {
-        text_show_string(30, 190, 240, 16, "没有音乐文件!", 16, 0, BLUE);
+        text_show_string(30, 170, 240, 16, "没有音乐文件!", 16, 0, BLUE);
         vTaskDelay(200);
-        spilcd_fill(30, 190, 240, 146, WHITE);
+        spilcd_fill(30, 170, 240, 146, WHITE);
         vTaskDelay(200);
     }
     
@@ -246,9 +246,9 @@ void audio_play(void)
     
     while (!wavfileinfo || !pname || !wavoffsettbl)
     {
-        text_show_string(30, 190, 240, 16, "内存分配失败!", 16, 0, BLUE);
+        text_show_string(30, 170, 240, 16, "内存分配失败!", 16, 0, BLUE);
         vTaskDelay(200);
-        spilcd_fill(30, 190, 240, 146, WHITE);
+        spilcd_fill(30, 170, 240, 146, WHITE);
         vTaskDelay(200);
     }
     
@@ -295,9 +295,9 @@ void audio_play(void)
         
         strcpy((char *)pname, "0:/MUSIC/");
         strcat((char *)pname, (const char *)wavfileinfo->fname);
-        spilcd_fill(30, 190, spilcddev.width, spilcddev.height, WHITE);
+        spilcd_fill(30, 170, spilcddev.width, spilcddev.height, WHITE);
         audio_index_show(curindex + 1, totwavnum);
-        text_show_string(30, 190, 300, 16, (char *)wavfileinfo->fname, 16, 0, BLUE);
+        text_show_string(30, 170, 300, 16, (char *)wavfileinfo->fname, 16, 0, BLUE);
         key = audio_play_song(pname);
 
         if (key == KEY1_PRES)       /* 上一首 */

@@ -538,7 +538,7 @@ void spilcd_show_num(uint16_t x, uint16_t y, uint32_t num, uint8_t len, uint8_t 
         {
             if (temp == 0)
             {
-                spilcd_show_char(x + (size / 2)*t, y, ' ', size, 0, color);    /* 显示空格,占位 */
+                spilcd_show_char(x + (size / 2)*t, y, '0', size, 0, color);    /* 显示0,占位 */
                 continue;                                                   /* 继续下个一位 */
             }
             else

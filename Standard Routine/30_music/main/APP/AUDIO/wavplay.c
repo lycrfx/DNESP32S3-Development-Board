@@ -23,6 +23,8 @@
 #include "freertos/task.h"
 #include "esp_log.h"
 #include "esp_timer.h"
+#include "audio_dbg.h"
+
 
 
 
@@ -239,17 +241,37 @@ void music(void *pvParameters)
          g_audiodev.tbuf[3]);
             }
 
+//  //“补丁标记”log           
+// static int printed = 0;
+// if (!printed) {
+//     printed = 1;
+//     ESP_LOGW("PATCH", "PATCH_APPLIED: i2s write uses bytes_write now!");
+// }
+
+
+
  // ===== SD read timing begin =====           
 int64_t r0 = esp_timer_get_time();
 // 原有代码：从 SD/FATFS 读数据进 tbuf
 f_read(g_audiodev.file, g_audiodev.tbuf, WAV_TX_BUFSIZE, (UINT*)&bytes_write);
-
 int64_t r1 = esp_timer_get_time();
+
+if (bytes_write != WAV_TX_BUFSIZE) {
+    ALOGW("TAIL",
+             "bytes_write=%u (expect=%u), fpos=%ld, table=%lld/%ld",
+             (unsigned)bytes_write,
+             (unsigned)WAV_TX_BUFSIZE,
+             (long)f_tell(g_audiodev.file),
+             (long long)i2s_table_size,
+             (long)wavctrl.datasize);
+}//用 log 抓到 “bytes_write != 4096” 的时刻
+
+
 
 static uint32_t rcnt = 0;
 rcnt++;
 if ((rcnt % 100) == 0) {
-    ESP_LOGI("SDRD",
+    ALOGI("SDRD",
              "bytes=%u, cost=%lld us",
              (unsigned)bytes_write,
              (long long)(r1 - r0));
@@ -263,7 +285,7 @@ if ((rcnt % 100) == 0) {
             
             if ((dbg_cnt % 100) == 0) 
             {
-ESP_LOGI("BUF",
+ALOGI("BUF",
          "after  read: bytes_write=%u, fpos=%ld, tbuf[0..3]=%02X %02X %02X %02X",
          (unsigned)bytes_write,
          (long)f_tell(g_audiodev.file),
@@ -272,12 +294,19 @@ ESP_LOGI("BUF",
          g_audiodev.tbuf[2],
          g_audiodev.tbuf[3]);
 
-ESP_LOGI(TAG, "-------------------------------------------------------------");
+ALOGI(TAG, "-------------------------------------------------------------");
 
             }
 
 // 原有代码：把 tbuf 送去 I2S（下一课再讲它）
-i2s_table_size = i2s_table_size + i2s_tx_write(g_audiodev.tbuf, WAV_TX_BUFSIZE);
+//i2s_table_size = i2s_table_size + i2s_tx_write(g_audiodev.tbuf, WAV_TX_BUFSIZE);
+if (bytes_write > 0) {
+    i2s_table_size = i2s_table_size + i2s_tx_write(g_audiodev.tbuf, bytes_write);
+} else {
+    ALOGI("TAIL", "bytes_write=0, stop soon");
+}
+
+
 
             }
         }

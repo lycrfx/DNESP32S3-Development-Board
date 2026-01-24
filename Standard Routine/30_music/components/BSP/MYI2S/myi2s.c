@@ -21,6 +21,8 @@
 #include "myi2s.h"
 #include "esp_log.h"
 #include "esp_timer.h"
+//include "audio_dbg.h"
+
 
 
 
@@ -154,9 +156,10 @@ size_t i2s_tx_write(uint8_t *buffer, uint32_t frame_size)
     esp_err_t err = i2s_channel_write(tx_handle, buffer, frame_size, &bytes_written, 1000);
     int64_t t1 = esp_timer_get_time();
 
+
     cnt++;
-    // 每 50 次打印一次，防刷屏（你也可以改成 20/100）
-    if ((cnt % 100) == 0) {
+    // 每 100 次打印一次，防刷屏（你也可以改成 20/100）
+    if ((frame_size != 4096) || ((cnt % 200) == 0)) {
         ESP_LOGI("I2SWR", "req=%u, written=%u, cost=%lld us, err=%d",
                  (unsigned)frame_size,
                  (unsigned)bytes_written,

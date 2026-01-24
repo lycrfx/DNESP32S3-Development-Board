@@ -22,6 +22,8 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "esp_log.h"
+#include "esp_timer.h"
+
 
 
 
@@ -236,8 +238,25 @@ void music(void *pvParameters)
          g_audiodev.tbuf[2],
          g_audiodev.tbuf[3]);
             }
+
+ // ===== SD read timing begin =====           
+int64_t r0 = esp_timer_get_time();
 // 原有代码：从 SD/FATFS 读数据进 tbuf
 f_read(g_audiodev.file, g_audiodev.tbuf, WAV_TX_BUFSIZE, (UINT*)&bytes_write);
+
+int64_t r1 = esp_timer_get_time();
+
+static uint32_t rcnt = 0;
+rcnt++;
+if ((rcnt % 100) == 0) {
+    ESP_LOGI("SDRD",
+             "bytes=%u, cost=%lld us",
+             (unsigned)bytes_write,
+             (long long)(r1 - r0));
+}
+// ===== SD read timing end =====
+
+
 
 // ② f_read 之后：看实际读了多少 + buffer 新内容 + 指针是否前进
 

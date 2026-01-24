@@ -8,7 +8,8 @@
     "files.autoGuessEncoding": true,
     "idf.portWin": "COM33",
     "idf.flashType": "UART",
-    "idf.espIdfPath": "/root/esp/v5.4/esp-idf",
-    "idf.toolsPath": "/root/.espressif",
-    "idf.port": "/dev/ttyUSB0"
+    "idf.espIdfPath": "/home/leo/esp-idf/v5.3.4/esp-idf",
+    "idf.toolsPath": "/home/leo/.espressif",
+    "idf.port": "/dev/ttyUSB0",
+    "idf.pythonInstallPath": "/usr/bin/python3"
 }

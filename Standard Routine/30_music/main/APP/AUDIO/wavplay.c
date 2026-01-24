@@ -21,6 +21,10 @@
 #include "wavplay.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
+#include "esp_log.h"
+
+
+
 
 /******************************************************************************************************/
 /*FreeRTOS配置*/
@@ -160,6 +164,10 @@ void wav_get_curtime(FIL *fx, __wavctrl *wavx)
 void music(void *pvParameters)
 {
     pvParameters = pvParameters;
+    static uint32_t dbg_cnt = 0;
+static const char *TAG = "WAV_PLAYER";
+
+
 
     /* ES8388初始化配置，有效降低启动时发出沙沙声 */
     es8388_adda_cfg(1,0);                           /* 打开DAC，关闭ADC */
@@ -206,8 +214,44 @@ void music(void *pvParameters)
                     break;                          /* 防止延时5ms未能删除音频任务 */
                 }
 
-                f_read(g_audiodev.file,g_audiodev.tbuf, WAV_TX_BUFSIZE, (UINT*)&bytes_write);
-                i2s_table_size = i2s_table_size + i2s_tx_write(g_audiodev.tbuf, WAV_TX_BUFSIZE);
+            //    f_read(g_audiodev.file,g_audiodev.tbuf, WAV_TX_BUFSIZE, (UINT*)&bytes_write);
+            //    i2s_table_size = i2s_table_size + i2s_tx_write(g_audiodev.tbuf, WAV_TX_BUFSIZE);
+            // ① f_read 之前：看文件指针 + 看 buffer 旧内容
+
+                dbg_cnt++;
+            if ((dbg_cnt % 100) == 0) {
+            ESP_LOGI("BUF",
+         "before read: fpos=%ld, tbuf[0..3]=%02X %02X %02X %02X",
+         (long)f_tell(g_audiodev.file),
+         g_audiodev.tbuf[0],
+         g_audiodev.tbuf[1],
+         g_audiodev.tbuf[2],
+         g_audiodev.tbuf[3]);
+            }
+// 原有代码：从 SD/FATFS 读数据进 tbuf
+f_read(g_audiodev.file, g_audiodev.tbuf, WAV_TX_BUFSIZE, (UINT*)&bytes_write);
+
+// ② f_read 之后：看实际读了多少 + buffer 新内容 + 指针是否前进
+
+            
+            if ((dbg_cnt % 100) == 0) 
+            {
+ESP_LOGI("BUF",
+         "after  read: bytes_write=%u, fpos=%ld, tbuf[0..3]=%02X %02X %02X %02X",
+         (unsigned)bytes_write,
+         (long)f_tell(g_audiodev.file),
+         g_audiodev.tbuf[0],
+         g_audiodev.tbuf[1],
+         g_audiodev.tbuf[2],
+         g_audiodev.tbuf[3]);
+
+ESP_LOGI(TAG, "-------------------------------------------------------------");
+
+            }
+
+// 原有代码：把 tbuf 送去 I2S（下一课再讲它）
+i2s_table_size = i2s_table_size + i2s_tx_write(g_audiodev.tbuf, WAV_TX_BUFSIZE);
+
             }
         }
 

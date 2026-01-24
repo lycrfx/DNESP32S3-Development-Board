@@ -165,7 +165,7 @@ void music(void *pvParameters)
 {
     pvParameters = pvParameters;
     static uint32_t dbg_cnt = 0;
-static const char *TAG = "WAV_PLAYER";
+    static const char *TAG = "WAV_PLAYER";
 
 
 
@@ -178,6 +178,14 @@ static const char *TAG = "WAV_PLAYER";
     xl9555_pin_write(SPK_EN_IO,0);                  /* 打开喇叭 */
     vTaskDelay(pdMS_TO_TICKS(20));
     i2s_tx_write(g_audiodev.tbuf, WAV_TX_BUFSIZE);  /* 先发送一段无声音的数据 */
+
+    ESP_LOGI("WAV", "sr=%ld, ch=%u, bps=%u, datasize=%ld",
+         (long)wavctrl.samplerate,
+         (unsigned)wavctrl.nchannels,
+         (unsigned)wavctrl.bps,
+         (long)wavctrl.datasize);
+
+
 
     while(1)
     {

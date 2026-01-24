@@ -19,6 +19,9 @@
  */
 
 #include "myi2s.h"
+#include "esp_log.h"
+#include "esp_timer.h"
+
 
 
 i2s_chan_handle_t tx_handle = NULL;     /* I2S发送通道句柄 */
@@ -135,12 +138,40 @@ void i2s_set_samplerate_bits_sample(int samplerate, int bits_sample)
  * @param       frame_size: 数据大小
  * @retval      发送的数据长度
  */
+// size_t i2s_tx_write(uint8_t *buffer, uint32_t frame_size)
+// {
+//     size_t bytes_written;
+//     ESP_ERROR_CHECK(i2s_channel_write(tx_handle, buffer, frame_size, &bytes_written, 1000));
+//     return bytes_written;
+// }
+
 size_t i2s_tx_write(uint8_t *buffer, uint32_t frame_size)
 {
-    size_t bytes_written;
-    ESP_ERROR_CHECK(i2s_channel_write(tx_handle, buffer, frame_size, &bytes_written, 1000));
+    static uint32_t cnt = 0;
+    size_t bytes_written = 0;
+
+    int64_t t0 = esp_timer_get_time();
+    esp_err_t err = i2s_channel_write(tx_handle, buffer, frame_size, &bytes_written, 1000);
+    int64_t t1 = esp_timer_get_time();
+
+    cnt++;
+    // 每 50 次打印一次，防刷屏（你也可以改成 20/100）
+    if ((cnt % 100) == 0) {
+        ESP_LOGI("I2SWR", "req=%u, written=%u, cost=%lld us, err=%d",
+                 (unsigned)frame_size,
+                 (unsigned)bytes_written,
+                 (long long)(t1 - t0),
+                 (int)err);
+    }
+
+    ESP_ERROR_CHECK(err);
     return bytes_written;
 }
+
+
+
+
+
 
 /**
  * @brief       I2S读取数据

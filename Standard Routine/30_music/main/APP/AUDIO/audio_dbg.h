@@ -2,7 +2,7 @@
 
 // 1 = 打开调试log，0 = 关闭
 #ifndef AUDIO_DBG
-#define AUDIO_DBG 0
+#define AUDIO_DBG 1
 #endif
 
 #if AUDIO_DBG

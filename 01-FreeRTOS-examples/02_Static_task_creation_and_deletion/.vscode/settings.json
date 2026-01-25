@@ -1,18 +1,28 @@
 {
-    "C_Cpp.intelliSenseEngine": "default",
-    "idf.espIdfPathWin": "d:\\Soft_APP\\ESP_IDF\\master\\esp-idf",
-    "idf.openOcdConfigs": [
-        "board/esp32s3-builtin.cfg"
-    ],
-    "idf.toolsPathWin": "d:\\Soft_APP\\ESP_IDF\\tools",
-    "files.autoGuessEncoding": true,
-    "idf.portWin": "COM33",
-    "idf.flashType": "UART",
-    "idf.port": "/dev/ttyUSB0",
-    "idf.espIdfPath": "/root/esp/v5.4/esp-idf",
-    "idf.toolsPath": "/root/.espressif",
-    "files.associations": {
-        "freertos_demo.h": "c",
-        "led.h": "c"
-    }
+  "C_Cpp.intelliSenseEngine": "default",
+  "idf.espIdfPathWin": "d:\\Soft_APP\\ESP_IDF\\master\\esp-idf",
+  "idf.openOcdConfigs": [
+    "board/esp32s3-builtin.cfg"
+  ],
+  "idf.toolsPathWin": "d:\\Soft_APP\\ESP_IDF\\tools",
+  "files.autoGuessEncoding": true,
+  "idf.portWin": "COM33",
+  "idf.flashType": "UART",
+  "idf.port": "/dev/ttyUSB0",
+  "idf.espIdfPath": "/home/leo/esp-idf/v5.3.4/esp-idf",
+  "idf.toolsPath": "/home/leo/.espressif",
+  "files.associations": {
+    "freertos_demo.h": "c",
+    "led.h": "c"
+  },
+  "idf.pythonInstallPath": "/usr/bin/python3",
+  "idf.customExtraVars": {
+    "IDF_TARGET": "esp32s3"
+  },
+  "clangd.path": "/home/leo/.espressif/tools/esp-clang/16.0.1-fe4f10a809/esp-clang/bin/clangd",
+  "clangd.arguments": [
+    "--background-index",
+    "--query-driver=**",
+    "--compile-commands-dir=/home/leo/work/DNESP32S3-Development-Board/01-FreeRTOS-examples/02_Static_task_creation_and_deletion/build"
+  ]
 }

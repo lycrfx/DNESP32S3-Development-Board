@@ -1,0 +1,24 @@
+【必须学】
+01 Task 创建
+03 Task 挂起/恢复
+06 Queue
+12 Mutex
+15 TaskNotify（二值）
+16 TaskNotify（计数）
+
+【稍后学】
+11 优先级反转
+14 EventGroup
+07/08 QueueSet
+13 软件定时器
+
+【可跳过】
+02 静态任务
+04 RTOS 内部链表
+05 时间片
+09/10 信号量基础
+17/18 Notify 高级模拟
+
+1
+2
+3

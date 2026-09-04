@@ -3,6 +3,9 @@
 # ESP-IDF per-project build directories
 **/build/
 
+# ESP-IDF Component Manager downloads (generated locally)
+**/managed_components/
+
 # IDF generated backup config
 **/sdkconfig.old
 
@@ -19,4 +22,3 @@
 Thumbs.db
 .idea/
 *.code-workspace
-
